@@ -4,10 +4,10 @@
 const minimist = require('minimist')
 
 const argv = minimist(process.argv.slice(2))
-const { createDb } = require('./lib/db')
+const { createDb } = require('./lib')
 
 async function main () {
-  const db = await createDb()
+  const db = await createDb('sqlite')
   const command = argv._.shift()
   switch (command) {
     case 'users:create':
@@ -50,7 +50,7 @@ async function main () {
           console.log(secret.name)
         })
       } catch (error) {
-        throw new Error('Cannot list secrets')
+        throw new Error(`Cannot list secrets ${error}`)
       }
       break
     case 'secrets:get':

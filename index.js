@@ -1,18 +1,23 @@
-#!/usr/bin/env node
 'use strinct'
+require('dotenv').config()
 
 const minimist = require('minimist')
+const { createDb } = require('./lib')
+const promptly = require('promptly')
 
 const argv = minimist(process.argv.slice(2))
-const { createDb } = require('./lib')
+
+const prompt = () => promptly.password('Type a password: ', { replace: '*' })
+
 
 async function main () {
-  const db = await createDb('sqlite')
+  const db = await createDb(process.env.DB_TYPE)
   const command = argv._.shift()
   switch (command) {
     case 'users:create':
       try {
-        const { user, pass } = argv
+        const { user} = argv
+        const pass = await prompt()
         await db.createUser(user, pass)
         console.log(`${user} created`)
       } catch (error) {
@@ -35,6 +40,7 @@ async function main () {
     case 'secrets:create':
       try {
         const { user, name, value } = argv
+        const pass = await prompt()
         await db.createSecret(user, name, value)
         console.log(`Secret ${name} created`)
       } catch (error) {
@@ -44,6 +50,7 @@ async function main () {
     case 'secrets:list':
       try {
         const { user } = argv
+        const pass = await prompt()
         const secrets = await db.listSecrets(user)
         console.log(`Secrets for ${user}`)
         secrets.forEach((secret) => {
@@ -56,6 +63,7 @@ async function main () {
     case 'secrets:get':
       try {
         const { user, name } = argv
+        const pass = await prompt()
         const secret = await db.getSecret(user, name)
         if (!secret) return console.log(`secret ${name} not found`)
         console.log(`${secret.name} = ${secret.value}`)
@@ -67,6 +75,7 @@ async function main () {
     case 'secrets:update':
       try {
         const { user, name, value } = argv
+        const pass = await prompt()
         await db.updateSecret(user, name, value)
         console.log(`secrtet ${name} updated`)
       } catch (error) {
@@ -76,6 +85,7 @@ async function main () {
     case 'secrets:delete':
       try {
         const { user, name } = argv
+        const pass = await prompt()
         await db.deleteSecret(user, name)
         console.log(`secret ${name} deleted`)
       } catch (error) {

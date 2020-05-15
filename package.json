@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
+    "dotenv": "^8.2.0",
     "minimist": "^1.2.5",
     "pg": "^8.1.0",
+    "promptly": "^3.0.3",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {

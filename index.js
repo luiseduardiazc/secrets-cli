@@ -42,7 +42,7 @@ async function main () {
         const pass = await promptPassword()
         const isAuth = await db.authenticate(user, pass)
         if (!isAuth) throw new Error('Invalid user or password')
-        await db.createSecret(user, name, value)
+        await db.createSecret(user, pass, name, value)
         console.log(`Secret ${name} created`)
       } catch (error) {
         throw new Error(`Cannot create secret \n ${error.message}`)
@@ -68,9 +68,8 @@ async function main () {
         const { user, name } = argv
         const pass = await promptPassword()
         const isAuth = await db.authenticate(user, pass)
-        console.log(isAuth)
         if (!isAuth) throw new Error('Invalid user or password')
-        const secret = await db.getSecret(user, name)
+        const secret = await db.getSecret(user, pass, name)
         if (!secret) return console.log(`secret ${name} not found`)
         console.log(`${secret.name} = ${secret.value}`)
       } catch (error) {

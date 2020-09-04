@@ -15,9 +15,11 @@
     "minimist": "^1.2.5",
     "pg": "^8.1.0",
     "promptly": "^3.0.3",
+    "sequelize": "^6.3.5",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
+    "sequelize-cli": "^6.2.0",
     "standard": "^14.3.3"
   }
 }

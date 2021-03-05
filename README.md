@@ -14,5 +14,6 @@ $ npm install -d
 ```sh
 DB_URL= <db_url>
 DB_TYPE=postgres
+
 ```
 
